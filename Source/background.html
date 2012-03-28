@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        function getExtension(url) {
+        	return (url = url.substr(1 + url.lastIndexOf("/")).split('#')[0].split('?')[0]).substr(url.lastIndexOf("."));
+        }
+
+        chrome.webNavigation.onCompleted.addListener(function (details) {
+        	var ext = getExtension(details.url);
+        	if (ext == '.md' || ext == '.mdown' || ext == '.markdown' || ext.lastIndexOf('.mkdn', 0) == 0) {
+        	    tabID = details.tab;
+        		chrome.tabs.executeScript(tabID, { file: "loader.js" });
+        	}
+        });
+
+        chrome.extension.onRequest.addListener(function (request, sender, sendResponse) {
+        	if (request.action == 'initialize') {
+        		tabID = sender.tab.id;
+        		chrome.tabs.insertCSS(tabID, { file: "Mark5.css" });
+        		chrome.tabs.executeScript(tabID, { file: "jquery-1.7.1.min.js" });
+        		chrome.tabs.executeScript(tabID, { file: "Markdown.Converter.js" });
+        		chrome.tabs.executeScript(tabID, { file: "Mark5.js" });
+        		return;
+        	} else if (request.action == 'options-extensions') {
+        		chrome.tabs.create({ url: 'chrome://settings/extensions' });
+        		return;
+        	}
+
+        	var key = request.key;
+        	if (key) {
+        		var value = localStorage.getItem(key);
+        		if (request.action == 'remove') {
+        			localStorage.removeItem(key);
+        		} else {
+        			var newValue = request.value;
+        			if (newValue) localStorage.setItem(key, newValue);
+        		}
+        		// send back the original value
+        		sendResponse({ value: value });
+        	} else {
+        		// unknown operation: send empty response
+        		sendResponse({});
+        	}
+        });
+    </script>
+</head>
+</html>

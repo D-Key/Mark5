@@ -1,0 +1,14 @@
+{
+	"name": "Mark5",
+	"version": "1.0",
+	"description": "Chrome Markdown Reader.",
+	"background_page": "background.html",
+	"homepage_url": "http://www.github.com/somethingsomething",
+	"permissions" : [
+		"webNavigation", "tabs", "http://*/*", "https://*/*", "file://*/*"
+	],
+	"icons" : {
+		"48" : "icon128x128.png",
+		"128" : "icon128x128.png"
+	}
+}
