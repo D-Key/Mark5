@@ -3,7 +3,7 @@
 	"version": "1.0",
 	"description": "Chrome Markdown Reader.",
 	"background_page": "background.html",
-	"homepage_url": "http://www.github.com/somethingsomething",
+	"homepage_url": "https://github.com/D-Key/Mark5/wiki",
 	"permissions" : [
 		"webNavigation", "tabs", "http://*/*", "https://*/*", "file://*/*"
 	],
